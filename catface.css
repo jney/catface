@@ -1,9 +1,2 @@
-#catface {
-  background-color: #fff;
-  text-align: center;
-  border-top: 1px solid #ddd;
-}
-
-#catface .content {
-  
-}
+#catface { background-color: #69c; border-top: 1px solid #000; text-align: center; }
+#catface .content { padding:1em; }
