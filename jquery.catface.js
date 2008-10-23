@@ -38,13 +38,13 @@
 (function($) {
   
   $.catface = function(data, settings) {
-    $.catface_init()
+    $.catface_init();
     if(data.match(/\S/)){
-      $.catface_loading()
-      $.isFunction(data) ? data.call(this, $) : $.catface_open(data, settings)
+      $.catface_loading();
+      $.isFunction(data) ? data.call(this, $) : $.catface_open(data, settings);
     }
-    return $
-  }
+    return $;
+  };
   
   $.catface.settings = {
     loading_image : '/images/catface/loading.gif',
@@ -61,69 +61,73 @@
           <img src="/images/catface/loading.gif" style="margin:auto;padding:10px 20px" alt="loading" />\
         </div>\
       </div>'
-  }
+  };
   
   $.catface.loading = function(){
-    return ($('#catface .loading:visible').length == 1)
-  }
+    return ($('#catface .loading:visible').length == 1);
+  };
   
   $.fn.catface = function(settings) {
-    $.catface_init(settings)
+    $.catface_init(settings);
     var click_handler = function() {
-      if ($('#catface .loading:visible').length == 1) return false
-      $.catface_loading()
+      if ($('#catface .loading:visible').length == 1) return false;
+      $.catface_loading();
       // div
       if (this.href.match(/#/)) {
         
-        var url = window.location.href.split('#')[0]
+        var url = window.location.href.split('#')[0];
         // is allowing to have directly parameters in href
         // ex: "#my_div&time=10"
         // this will show #my_div during 10 seconds
-        var ary = this.href.replace(url,'').split("&")
+        var ary = this.href.replace(url,'').split("&");
         for(var v in ary){
-          var k = ary[v].split("=")
-          if(k.length==2) $.catface.settings[k[0]] = k[1]
+          var k = ary[v].split("=");
+          if(k.length==2) $.catface.settings[k[0]] = k[1];
         }
         // ary[0] is the target
-        $.catface_open($(ary[0]).clone().show())
+        $.catface_open($(ary[0]).clone().show());
       // ajax
       } else {
-        try {$.get(this.href, function(data){$.catface_open(data)})}
-        catch(e){alert(e)}
+        try {
+          $.get( this.href, function(data) { $.catface_open(data); } );
+        } catch(e) { alert(e); }
       }
-      return false
-    }
-    return this.click(click_handler)
-  }
+      return false;
+    };
+    return this.click(click_handler);
+  };
   
 /**
   * The init function is a one-time setup which preloads vital images
   * and other niceities.
   */
   $.catface_init = function(settings) {
-    if($.catface.settings.inited && typeof settings == 'undefined')
-      return true
+    if($.catface.settings.inited && typeof settings == 'undefined');
+      return true;
       
-    $.catface.settings.inited = true
+    $.catface.settings.inited = true;
     
-    settings && $.extend($.catface.settings, settings)
+    settings && $.extend($.catface.settings, settings);
     
-    if(typeof $.catface.timing == "undefined") $.catface.timing = false
-    if(typeof $.catface.running == "undefined") $.catface.running = false
+    if(typeof $.catface.timing == "undefined")
+      $.catface.timing = false;
+      
+    if(typeof $.catface.running == "undefined")
+      $.catface.running = false;
     
     if($("#catface") && $("#catface").length > 0)
-      return true
+      return true;
       
-    $.catface.settings.ie6 = (!window.XMLHttpRequest) 
+    $.catface.settings.ie6 = (!window.XMLHttpRequest);
     
-    $('body').append($.catface.settings.html)
-    var preload = [ new Image(), new Image() ]
-    preload[0].src = $.catface.settings.close_image
-    preload[1].src = $.catface.settings.loading_image
+    $('body').append($.catface.settings.html);
+    var preload = [ new Image(), new Image() ];
+    preload[0].src = $.catface.settings.close_image;
+    preload[1].src = $.catface.settings.loading_image;
     
     $("#catface").css({ borderLeft: 0, borderRight: 0, bottom: 0, left: 0,
       marginLeft: 0, marginRight: 0, paddingLeft: 0, paddingRight: 0,
-      position: "fixed", width: "100%" })
+      position: "fixed", width: "100%" });
       
     if ($.catface.settings.ie6) {
       $("#catface").css({
@@ -135,63 +139,66 @@
             document.documentElement.clientHeight : document.body.clientHeight) + \
           (ignoreMe = document.documentElement.scrollTop ? \
             document.documentElement.scrollTop : document.body.scrollTop)) + 'px' )"
-      })
+      });
     }
     
-    $('#catface .loading').hide()
+    $('#catface .loading').hide();
     
-    $('#catface .close_image').attr('src', $.catface.settings.close_image)
-  }
+    $('#catface .close_image').attr('src', $.catface.settings.close_image);
+  };
   
   $.catface_loading = function() {
-    if ($('#catface .loading:visible').length == 1) return true
-    $(document).unbind('.catface')
-    $('#catface .content').empty().hide()
-    $('#catface .loading').show()
-    $('#catface').slideDown('slow')
+    if ($('#catface .loading:visible').length == 1) return true;
+    $(document).unbind('.catface');
+    $('#catface .content').empty().hide();
+    $('#catface .loading').show();
+    $('#catface').slideDown('slow');
 
     $(document).bind('keydown.catface', function(e) {
-      if (e.keyCode == 27) $.catface_close()
-    })
-  }
+      if (e.keyCode == 27) $.catface_close();
+    });
+  };
   
   $.catface_open = function(data, settings, extra_setup) {
     // return if no data
-    if(!data.match(/\S/)) return $.catface_close()
+    if(!data.match(/\S/)) return $.catface_close();
     // deal with the settings
-    var $s = $.catface.settings; $.extend($s, (settings || {}))
-    $('#catface .content').append(data)
-    $('#catface .loading').hide()
+    var $s = $.catface.settings; $.extend($s, (settings || {}));
+    $('#catface .content').append(data);
+    $('#catface .loading').hide();
     // remove other added class_name
-    $("#catface .content").removeClass().addClass('content')
+    $("#catface .content").removeClass().addClass('content');
     // add class_name if defined
     if($s.class_name != undefined)
-      $("#catface .content").addClass($s.class_name)
-    $('#catface .content').fadeIn('slow')
-    if ($.isFunction(extra_setup)) extra_setup.call(this)
-    $s.ie6 && $('body').css('overflow', 'hidden') // Change IE6 hack back
+      $("#catface .content").addClass($s.class_name);
+    $('#catface .content').fadeIn('slow');
+    if ($.isFunction(extra_setup)) extra_setup.call(this);
+    $s.ie6 && $('body').css('overflow', 'hidden'); // Change IE6 hack back
     // this.options.time is time in seconds
     if ($s.time != undefined) {
-      !$.catface.timing ? ($.catface.timing = true) : ($.catface.running = true)
+      !$.catface.timing ? ($.catface.timing = true) : ($.catface.running = true);
       setTimeout(function(){ 
         if(!$.catface.running && !$.catface.loading()){
-          $.catface_close(); $.catface.timing = false }
-        else $.catface.running = false }, $s.time * 1000)
-    } else { $.catface.running = true }
+          $.catface_close(); $.catface.timing = false;
+        } else $.catface.running = false ;
+      }, $s.time * 1000);
+    } else { $.catface.running = true; }
     
     // finally we bind close events
-    $('#catface .close').bind('click.catface',$.catface_close)
-    $('#catface .submit').bind('click.catface',function(){$.catface_close(true)})
-  }
+    $('#catface .close').
+      bind('click.catface',$.catface_close);
+    $('#catface .submit').
+      bind('click.catface',function(){$.catface_close(true);});
+  };
   
   $.catface_close = function(rtn) {
-    if(typeof rtn != "boolean") rtn = false
-    $(document).unbind('.catface')
+    if(typeof rtn != "boolean") rtn = false;
+    $(document).unbind('.catface');
     $('#catface').slideUp(function(){
-      $("#catface .content").removeClass().addClass('content')
-      $('#catface .loading').hide()
-      $.catface.settings.ie6 && $('body').css('overflow', 'visible')
-    })
-    return rtn
-  }
+      $("#catface .content").removeClass().addClass('content');
+      $('#catface .loading').hide();
+      $.catface.settings.ie6 && $('body').css('overflow', 'visible');
+    });
+    return rtn;
+  };
 })(jQuery);
