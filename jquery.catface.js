@@ -48,20 +48,23 @@
   };
   
   $.catface.settings = {
-    loading_image : 'catface/loading.gif',
-    close_image   : 'catface/close.png',
-    html          : '\
+    loading_image : '/images/loading.gif',
+    close_image   : '/images/close.png'
+  };
+  
+  $.catface.html = function(settings){
+    return '\
       <div id="catface" style="display:none">\
         <div class="body" style="position:relative;z-index:100">\
           <a href="#" class="close" style="border:0;position:absolute;right:4px;top:4px">\
-            <img src="../catface/close.png" alt="X" style="border:0"/>\
+            <img src="' + $.catface.settings.close_image + '" alt="X" style="border:0"/>\
           </a>\
           <div class="content"></div>\
         </div>\
         <div class="loading" style="text-align:center">\
-          <img src="../catface/loading.gif" style="margin:auto;padding:10px 20px" alt="loading" />\
+          <img src="' + $.catface.settings.loading_image + '" style="margin:auto;padding:10px 20px" alt="loading" />\
         </div>\
-      </div>'
+      </div>';
   };
   
   $.catface.loading = function(){
@@ -71,8 +74,10 @@
   $.fn.catface = function(settings) {
     $.catface.init(settings);
     var click_handler = function() {
-      if ($('#catface .loading:visible').length) return false;
-      $.catface.loading();
+      // stop if already loading
+      if ($.catface.loading()) return false;
+      
+      $.catface.load();
       // div
       if (this.href.match(/#/)) {
         
@@ -121,7 +126,7 @@
       
     $.catface.settings.ie6 = (!window.XMLHttpRequest);
     
-    $('body').append($.catface.settings.html);
+    $('body').append($.catface.html());
     var preload = [ new Image(), new Image() ];
     preload[0].src = $.catface.settings.close_image;
     preload[1].src = $.catface.settings.loading_image;
@@ -148,8 +153,8 @@
     $('#catface .close_image').attr('src', $.catface.settings.close_image);
   };
   
-  $.catface.loading = function() {
-    if ($('#catface .loading:visible').length) return true;
+  $.catface.load = function() {
+    if ($.catface.loading()) return true;
     $(document).unbind('.catface');
     $('#catface .content').empty().hide();
     $('#catface .loading').show();
