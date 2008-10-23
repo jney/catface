@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../jquery.catface.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function($) {
+        $('a[rel*=catface]').catface({
+          loading_image:'../images/loading.gif',
+          close_image:'../images/close.png'
+        });
+      });
+    </script>
+    <link media="screen,projection" type="text/css" href="../catface.css" rel="stylesheet">
+    <title>catface example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body style='font-family:Trebuchet MS;'>
+    <h1>Hey this is an example</h1>
+    <a href='./remote.html' rel='catface'>click me!</a>
+  </body>
+</html>
