@@ -1,0 +1,20 @@
+h1. jQuery catface
+
+h2. Summary
+
+jQuery catface is a jQuery plugin used to display div or remote html.
+
+h2. Requirement
+
+* jquery >= 1.2
+
+h2. Install
+
+include javascript @jquery.catface.js@ and css @catface.css@ in your page.
+include images directory in your project.
+
+h2. TODO
+
+Just work with standard compliant browser. need:
+* fix ie6 issues
+* fix ie7 issues
