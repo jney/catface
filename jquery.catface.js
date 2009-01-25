@@ -12,7 +12,7 @@
 //  Usage:
 //   
 //   jQuery(document).ready(function($) {
-//     $('a[rel*=catface]').catface();
+//     $("a[rel*=catface]").catface();
 //   });
 //  
 //   <a href="#terms" rel="catface">Terms</a>
@@ -27,7 +27,7 @@
 //  
 //   You can also use it programmatically:
 //  
-//     jQuery.catface('some html')
+//     jQuery.catface("some html")
 //  
 //   This will open a facebox with "some html" as the content.
 //     
@@ -48,8 +48,8 @@
   };
   
   $.catface.settings = {
-    loading_image : '/images/loading.gif',
-    close_image   : '/images/close.png'
+    loadingImage : "/images/loading.gif",
+    closeImage   : "/images/close.png"
   };
   
   $.catface.html = function(settings){
@@ -60,20 +60,20 @@
       <!--[if (gt IE 6)|!IE]>-->\
         <div id="catface">\
       <!--<![endif]-->\
-        <div class="body" style="position:relative;z-index:100">\
-          <a href="#" class="close" style="border:0;position:absolute;right:4px;top:4px">\
-            <img src="' + $.catface.settings.close_image + '" alt="X" style="border:0"/>\
+        <div class="catface-body">\
+          <a href="#" class="catface-close">\
+            <img src="' + $.catface.settings.closeImage + '" alt="X" />\
           </a>\
-          <div class="content"></div>\
+          <div class="catface-content"></div>\
         </div>\
-        <div class="loading" style="text-align:center">\
-          <img src="' + $.catface.settings.loading_image + '" style="margin:auto;padding:10px 20px" alt="loading" />\
+        <div class="catface-loading">\
+          <img src="' + $.catface.settings.loadingImage + '" alt="loading" />\
         </div>\
       </div>';
   };
   
   $.catface.loading = function(){
-    return !!$('#catface .loading:visible').length;
+    return !!$("#catface .catface-loading:visible").length;
   };
   
   $.catface.isIE6 = function(){
@@ -82,34 +82,33 @@
   
   $.fn.catface = function(settings) {
     $.catface.init(settings);
-    var click_handler = function() {
+    var clickHandler = function() {
       // stop if already loading
       if ($.catface.loading()) return false;
       
       $.catface.load();
       // div
       if (this.href.match(/#/)) {
-        
-        var url = window.location.href.split('#')[0];
+        var url = window.location.href.split("#")[0];
         // is allowing to have directly parameters in href
-        // ex: "#my_div&time=10"
-        // this will show #my_div during 10 seconds
-        var ary = this.href.replace(url,'').split("&");
+        // ex: "#my-div&time=10"
+        // this will show #my-div during 10 seconds
+        var ary = this.href.replace(url,"").split("&");
         for(var v in ary){
           var k = ary[v].split("=");
-          if(k.length==2) $.catface.settings[k[0]] = k[1];
+          if(k.length == 2) $.catface.settings[k[0]] = k[1];
         }
         // ary[0] is the target
         $.catface.open($(ary[0]).clone().show());
       // ajax
       } else {
         try {
-          $.get( this.href, function(data) { $.catface.open(data); } );
+          $.get(this.href, function(data) { $.catface.open(data); });
         } catch(e) { alert(e); }
       }
       return false;
     };
-    return this.click(click_handler);
+    return this.click(clickHandler);
   };
   
 /**
@@ -117,7 +116,7 @@
   * and other niceities.
   */
   $.catface.init = function(settings) {
-    if($.catface.settings.inited && typeof settings == 'undefined')
+    if($.catface.settings.inited && typeof settings == "undefined")
       return true;
       
     $.catface.settings.inited = true;
@@ -132,42 +131,44 @@
     
     if($("#catface").length) return true;
     
-    $('body').append($.catface.html());
+    $("body").append($.catface.html());
     var preload = [new Image(), new Image()];
-    preload[0].src = $.catface.settings.close_image;
-    preload[1].src = $.catface.settings.loading_image;
+    preload[0].src = $.catface.settings.closeImage;
+    preload[1].src = $.catface.settings.loadingImage;
     
-    $('#catface .loading').hide();
+    $("#catface .catface-loading").hide();
     
-    $('#catface .close_image').attr('src', $.catface.settings.close_image);
+    $("#catface a.catface-close img:first").attr("src", $.catface.settings.closeImage);
+    
+    $("#catface a.catface-loading img:first").attr("src", $.catface.settings.loadingImage);
   };
   
   $.catface.load = function() {
     if ($.catface.loading()) return true;
-    $(document).unbind('.catface');
-    $('#catface .content').empty().hide();
-    $('#catface .loading').show();
-    $('#catface').slideDown('slow');
+    $(document).unbind(".catface");
+    $("#catface .catface-content").empty().hide();
+    $("#catface .catface-loading").show();
+    $("#catface").slideDown("slow");
 
-    $(document).bind('keydown.catface', function(e) {
+    $(document).bind("keydown.catface", function(e) {
       if (e.keyCode == 27) $.catface.close();
     });
   };
   
-  $.catface.open = function(data, settings, extra_setup) {
+  $.catface.open = function(data, settings, extraSetup) {
     // return if no data
     if(!data.match(/\S/)) return $.catface.close();
     // deal with the settings
     var $s = $.catface.settings; $.extend($s, (settings || {}));
-    $('#catface .content').append(data);
-    $('#catface .loading').hide();
-    // remove other added class_name
-    $("#catface .content").removeClass().addClass('content');
-    // add class_name if defined
-    if($s.class_name != undefined) $("#catface .content").addClass($s.class_name);
-    $('#catface .content').fadeIn('slow');
-    if ($.isFunction(extra_setup)) extra_setup.call(this);
-    if ($.catface.settings.isIE6) $('body').css('overflow', 'hidden'); // Change IE6 hack back
+    $("#catface .catface-content").append(data);
+    $("#catface .catface-loading").hide();
+    // remove other added className
+    $("#catface .catface-content").removeClass().addClass("catface-content");
+    // add className if defined
+    if($s.className != undefined) $("#catface .catface-content").addClass($s.className);
+    $("#catface .catface-content").fadeIn("slow");
+    if ($.isFunction(extraSetup)) extraSetup.call(this);
+    if ($.catface.settings.isIE6) $("body").css("overflow", "hidden"); // Change IE6 hack back
     // this.options.time is time in seconds
     if ($s.time != undefined) {
       !$.catface.timing ? ($.catface.timing = true) : ($.catface.running = true);
@@ -179,19 +180,19 @@
     } else { $.catface.running = true; }
     
     // finally we bind close events
-    $('#catface .close').
-      bind('click.catface',$.catface.close);
-    $('#catface .submit').
-      bind('click.catface',function(){$.catface.close(true);});
+    $("#catface .catface-close").
+      bind("click.catface",$.catface.close);
+    $("#catface .catface-submit").
+      bind("click.catface",function(){$.catface.close(true);});
   };
   
   $.catface.close = function(rtn) {
     if(typeof rtn != "boolean") rtn = false;
-    $(document).unbind('.catface');
-    $('#catface').slideUp(function(){
-      $("#catface .content").removeClass().addClass('content');
-      $('#catface .loading').hide();
-      if ($.catface.settings.isIE6) $('body').css('overflow', 'visible');
+    $(document).unbind(".catface");
+    $("#catface").slideUp(function(){
+      $("#catface .catface-content").removeClass().addClass("catface-content");
+      $("#catface .catface-loading").hide();
+      if ($.catface.settings.isIE6) $("body").css("overflow", "visible");
     });
     return rtn;
   };
