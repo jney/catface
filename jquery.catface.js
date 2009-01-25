@@ -73,7 +73,11 @@
   };
   
   $.catface.loading = function(){
-    return ($('#catface .loading:visible').length == 1);
+    return !!$('#catface .loading:visible').length;
+  };
+  
+  $.catface.isIE6 = function(){
+    return !!$("#catface.catface-ie").length;
   };
   
   $.fn.catface = function(settings) {
@@ -126,11 +130,10 @@
     if(typeof $.catface.running == "undefined")
       $.catface.running = false;
     
-    if($("#catface") && $("#catface").length)
-      return true;
+    if($("#catface").length) return true;
     
     $('body').append($.catface.html());
-    var preload = [ new Image(), new Image() ];
+    var preload = [new Image(), new Image()];
     preload[0].src = $.catface.settings.close_image;
     preload[1].src = $.catface.settings.loading_image;
     
@@ -161,11 +164,10 @@
     // remove other added class_name
     $("#catface .content").removeClass().addClass('content');
     // add class_name if defined
-    if($s.class_name != undefined)
-      $("#catface .content").addClass($s.class_name);
+    if($s.class_name != undefined) $("#catface .content").addClass($s.class_name);
     $('#catface .content').fadeIn('slow');
     if ($.isFunction(extra_setup)) extra_setup.call(this);
-    // $s.ie6 && $('body').css('overflow', 'hidden'); // Change IE6 hack back
+    if ($.catface.settings.isIE6) $('body').css('overflow', 'hidden'); // Change IE6 hack back
     // this.options.time is time in seconds
     if ($s.time != undefined) {
       !$.catface.timing ? ($.catface.timing = true) : ($.catface.running = true);
@@ -189,7 +191,7 @@
     $('#catface').slideUp(function(){
       $("#catface .content").removeClass().addClass('content');
       $('#catface .loading').hide();
-      // $.catface.settings.ie6 && $('body').css('overflow', 'visible');
+      if ($.catface.settings.isIE6) $('body').css('overflow', 'visible');
     });
     return rtn;
   };

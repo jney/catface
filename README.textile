@@ -2,7 +2,7 @@ h1. jQuery catface
 
 h2. Summary
 
-"Catface":http://github.com/jney/catface is a jQuery plugin used to display div or remote html.
+"Catface":http://github.com/jney/catface is a "jQuery":http://jquery.com plugin used to display div or remote html.
 
 h2. Requirement
 
@@ -15,6 +15,5 @@ include images directory in your project.
 
 h2. TODO
 
-Just work with standard compliant browser. need:
-* fix ie6 issues
-* fix ie7 issues
+Just tested on standard compliant browsers.
+I have an OSX and an Ubuntu can someone make some tests and fixes on ie6 and ie7
