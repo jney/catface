@@ -2,7 +2,7 @@ h1. jQuery catface
 
 h2. Summary
 
-jQuery catface is a jQuery plugin used to display div or remote html.
+"Catface":http://github.com/jney/catface is a jQuery plugin used to display div or remote html.
 
 h2. Requirement
 

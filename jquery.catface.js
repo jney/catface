@@ -54,7 +54,12 @@
   
   $.catface.html = function(settings){
     return '\
-      <div id="catface" style="display:none">\
+      <!--[if lte IE 6 ]>\
+        <div id="catface" class="catface-ie">\
+      <![endif]-->\
+      <!--[if (gt IE 6)|!IE]>-->\
+        <div id="catface">\
+      <!--<![endif]-->\
         <div class="body" style="position:relative;z-index:100">\
           <a href="#" class="close" style="border:0;position:absolute;right:4px;top:4px">\
             <img src="' + $.catface.settings.close_image + '" alt="X" style="border:0"/>\
@@ -123,30 +128,11 @@
     
     if($("#catface") && $("#catface").length)
       return true;
-      
-    $.catface.settings.ie6 = (!window.XMLHttpRequest);
     
     $('body').append($.catface.html());
     var preload = [ new Image(), new Image() ];
     preload[0].src = $.catface.settings.close_image;
     preload[1].src = $.catface.settings.loading_image;
-    
-    $("#catface").css({ borderLeft: 0, borderRight: 0, bottom: 0, left: 0,
-      marginLeft: 0, marginRight: 0, paddingLeft: 0, paddingRight: 0,
-      position: "fixed", width: "100%" });
-      
-    if ($.catface.settings.ie6) {
-      $("#catface").css({
-        position: "absolute", right: "auto", bottom: "auto", overflow: "hidden",
-        left: "expression((0 + ( ignoreMe2 = document.documentElement.scrollLeft ? \
-          document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px')",
-        top: "expression(( -0 - catface.offsetHeight + \
-          document.documentElement.clientHeight ? \
-            document.documentElement.clientHeight : document.body.clientHeight) + \
-          (ignoreMe = document.documentElement.scrollTop ? \
-            document.documentElement.scrollTop : document.body.scrollTop)) + 'px' )"
-      });
-    }
     
     $('#catface .loading').hide();
     
@@ -179,7 +165,7 @@
       $("#catface .content").addClass($s.class_name);
     $('#catface .content').fadeIn('slow');
     if ($.isFunction(extra_setup)) extra_setup.call(this);
-    $s.ie6 && $('body').css('overflow', 'hidden'); // Change IE6 hack back
+    // $s.ie6 && $('body').css('overflow', 'hidden'); // Change IE6 hack back
     // this.options.time is time in seconds
     if ($s.time != undefined) {
       !$.catface.timing ? ($.catface.timing = true) : ($.catface.running = true);
@@ -203,7 +189,7 @@
     $('#catface').slideUp(function(){
       $("#catface .content").removeClass().addClass('content');
       $('#catface .loading').hide();
-      $.catface.settings.ie6 && $('body').css('overflow', 'visible');
+      // $.catface.settings.ie6 && $('body').css('overflow', 'visible');
     });
     return rtn;
   };
