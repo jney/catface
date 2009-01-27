@@ -4,16 +4,14 @@ h2. Summary
 
 "Catface":http://github.com/jney/catface is a "jQuery":http://jquery.com plugin used to display div or remote html.
 
+Tested on @Internet explorer 6@, @Internet explorer 7@, @Firefox 3@, @Safari@ and @Opera@
+
 h2. Requirement
 
 * jquery >= 1.2
 
 h2. Install
 
-include javascript @jquery.catface.js@ and css @catface.css@ in your page.
-include images directory in your project.
-
-h2. TODO
-
-Just tested on standard compliant browsers.
-I have an OSX and an Ubuntu can someone make some tests and fixes on ie6 and ie7
+* Include javascript @catface.js@ and css @catface.css@ in your page.
+* Include images directory in your project.
+* You can personnalize it @catface.css@, but be carefull. 
