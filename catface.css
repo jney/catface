@@ -1,5 +1,5 @@
 #catface {
-  background-color:#6cf;
+  background-color:#fff;
   border-left:0;
   border-right:0;
   border-top:1px solid #999;
@@ -8,6 +8,7 @@
   left:0;
   margin-left:0;
   margin-right:0;
+  opacity:.6;
   padding-left:0;
   padding-right:0;
   position:fixed;
@@ -21,7 +22,7 @@
   bottom:auto;
   overflow:hidden;
   left:expression((0 + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft)) + 'px');
-  top:expression((0 - document.documentElement.offsetHeight + (document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight) + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop)) + 'px' )
+  top:expression((0 - document.documentElement.offsetHeight + (document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight) + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop)) + 'px');
 }
 
 #catface .catface-body { position:relative;z-index:100; }
