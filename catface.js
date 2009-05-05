@@ -39,11 +39,11 @@
 (function($) {
   
   $.catface = function(data, settings) {
-    $.catface.init();
-    if(data.match(/\S/)){
-      $.catface.loading();
-      $.isFunction(data) ? data.call(this, $) : $.catface.open(data, settings);
-    }
+    $.catface.init(settings);
+    $.catface.load();
+    
+    if($.isFunction(data)) data.call(this, $);
+    else $.catface.open(data, settings);
     return $;
   };
   
@@ -72,7 +72,7 @@
       </div>';
   };
   
-  $.catface.loading = function(){
+  $.catface.isLoading = function(){
     return !!$("#catface .catface-loading:visible").length;
   };
   
@@ -84,7 +84,7 @@
     $.catface.init(settings);
     var clickHandler = function() {
       // stop if already loading
-      if ($.catface.loading()) return false;
+      if ($.catface.isLoading()) return false;
       
       $.catface.load();
       // div
@@ -116,9 +116,9 @@
   * and other niceities.
   */
   $.catface.init = function(settings) {
-    if($.catface.settings.inited && typeof settings == "undefined")
+    if($.catface.settings.inited || typeof settings == "undefined")
       return true;
-      
+    
     $.catface.settings.inited = true;
     
     settings && $.extend($.catface.settings, settings);
@@ -144,7 +144,7 @@
   };
   
   $.catface.load = function() {
-    if ($.catface.loading()) return true;
+    if ($.catface.isLoading()) return true;
     $(document).unbind(".catface");
     $("#catface .catface-content").empty().hide();
     $("#catface .catface-loading").show();
@@ -173,7 +173,7 @@
     if ($s.time != undefined) {
       !$.catface.timing ? ($.catface.timing = true) : ($.catface.running = true);
       setTimeout(function(){ 
-        if(!$.catface.running && !$.catface.loading()){
+        if(!$.catface.running && !$.catface.isLoading()){
           $.catface.close(); $.catface.timing = false;
         } else $.catface.running = false ;
       }, $s.time * 1000);
