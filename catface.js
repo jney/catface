@@ -89,7 +89,7 @@
       $.catface.load();
       // div
       if (this.href.match(/#/)) {
-        var url = window.location.href.split("#")[0];
+        var url = location.hash.substr(1);
         // is allowing to have directly parameters in href
         // ex: "#my-div&time=10"
         // this will show #my-div during 10 seconds
@@ -112,9 +112,9 @@
   };
   
 /**
-  * The init function is a one-time setup which preloads vital images
-  * and other niceities.
-  */
+ * The init function is a one-time setup which preloads vital images
+ * and other niceities.
+ */
   $.catface.init = function(settings) {
     if($.catface.settings.inited && typeof settings == "undefined")
       return true;
