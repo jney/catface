@@ -54,22 +54,22 @@
   
   $.catface.html = function(settings){
     return '\
-      <!--[if lte IE 6 ]>\
-        <div id="catface" class="catface-ie">\
-      <![endif]-->\
-      <!--[if (gt IE 6)|!IE]>-->\
-        <div id="catface">\
-      <!--<![endif]-->\
-        <div class="catface-body">\
-          <a href="#" class="catface-close">\
-            <img src="' + $.catface.settings.closeImage + '" alt="X" />\
-          </a>\
-          <div class="catface-content"></div>\
-        </div>\
-        <div class="catface-loading">\
-          <img src="' + $.catface.settings.loadingImage + '" alt="loading" />\
-        </div>\
-      </div>';
+<!--[if lte IE 6 ]>\
+  <div id="catface" class="catface-ie">\
+<![endif]-->\
+<!--[if (gt IE 6)|!IE]>-->\
+  <div id="catface">\
+<!--<![endif]-->\
+  <div class="catface-body">\
+    <a href="#" class="catface-close">\
+      <img src="' + $.catface.settings.closeImage + '" alt="X" />\
+    </a>\
+    <div class="catface-content"></div>\
+  </div>\
+  <div class="catface-loading">\
+    <img src="' + $.catface.settings.loadingImage + '" alt="loading" />\
+  </div>\
+</div>';
   };
   
   $.catface.loading = function(){
