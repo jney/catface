@@ -5,6 +5,15 @@
     <script type="text/javascript" src="../catface.js"></script>
     <script type="text/javascript">
       $(document).ready(function($) {
+        $.catface(function() {
+            $.get('./remote.html', function(data) {
+                $.catface(data, {
+                  loadingImage:'../images/loading.gif',
+                  closeImage:'../images/close.png',
+                  time:10
+                });
+            });
+        });
         $('a[rel*=catface]').catface({
           loadingImage:'../images/loading.gif',
           closeImage:'../images/close.png',
