@@ -40,8 +40,8 @@
     $.catface.init();
     if(data.match(/\S/)){
       $.catface.load();
-      $.isFunction(data) ? data.call(this, $) : $.catface.open(data, settings);
-    }
+      $.catface.open(data, settings);
+    } else data.call(this, $)
     return $;
   };
   
